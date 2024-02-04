@@ -1,0 +1,52 @@
+#include <iostream>
+#include <ctime>
+#include <thread>
+#include <chrono>
+
+class BaggageTracker {
+private:
+    double latitude;
+    double longitude;
+    bool isStolen;
+
+public:
+    BaggageTracker() : latitude(0.0), longitude(0.0), isStolen(false) {}
+
+    void updateLocation() {
+        // Simulate updating the baggage location (e.g., using GPS module)
+        latitude = 35.6895 + (rand() % 10) / 100.0;  // Simulating latitude between 35.6895 and 35.7895
+        longitude = -78.7752 + (rand() % 10) / 100.0;  // Simulating longitude between -78.7752 and -78.6752
+    }
+
+    void detectTheft() {
+        // Simulate theft detection (e.g., using sensors)
+        isStolen = (rand() % 2 == 0);  // Simulating a 50% chance of theft
+    }
+
+    void sendNotification() {
+        if (isStolen) {
+            std::cout << "Baggage theft detected! Sending location coordinates to the user's phone." << std::endl;
+            std::cout << "Latitude: " << latitude << ", Longitude: " << longitude << std::endl;
+            // Add code here to send a notification (e.g., through IoT platform)
+        }
+    }
+};
+
+int main() {
+    srand(time(0));  // Seed for random values
+
+    BaggageTracker baggageTracker;
+
+    for (int i = 0; i < 5; ++i) {
+        baggageTracker.updateLocation();
+        baggageTracker.detectTheft();
+        baggageTracker.sendNotification();
+
+        // Simulate some delay between iterations
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+
+        std::cout << "---------------------" << std::endl;
+    }
+
+    return 0;
+}
